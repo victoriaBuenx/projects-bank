@@ -12,32 +12,28 @@ model User {
   email         String         @unique
   passwordHash  String
   isActive      Boolean        @default(true)
+
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+
   refreshTokens RefreshToken[]
-  roles         UserRole[]
+  role          RoleType       @default(USER)
 }
 
-model Role {
-  id    String     @id @default(uuid())
-  name  String     @unique
-  users UserRole[]
+enum RoleType {
+  ADMIN
+  USER
 }
 
-model UserRole {
-  id     String @id @default(uuid())
-  userId String
-  roleId String
-  role   Role   @relation(fields: [roleId], references: [id])
-  user   User   @relation(fields: [userId], references: [id])
-}
 
 model RefreshToken {
   id        String   @id @default(uuid())
   userId    String
+
   token     String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+
   createdAt DateTime @default(now())
   expiresAt DateTime
   revoked   Boolean  @default(false)
-  user      User     @relation(fields: [userId], references: [id])
 }
