@@ -4,20 +4,20 @@ import { ROLES_KEY } from '../decorators/roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector) { }
 
   canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
-    
+
     if (!requiredRoles) {
-      return true; // No roles defined, so user can access
+      return true;
     }
 
     const { user } = context.switchToHttp().getRequest();
-    // user is populated by JwtAuthGuard's validate method payload
+
     if (!user || (!requiredRoles.includes(user.role) && !requiredRoles.includes('ANY'))) {
       return false;
     }
