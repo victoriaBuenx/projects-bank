@@ -10,6 +10,8 @@ import { UpdateTutoresUseCase } from 'src/application/use-cases/tutores/updateTu
 import { GetAllTutoresUseCase } from 'src/application/use-cases/tutores/getAllTutores.usecase';
 import { GetTutorByIdUseCase } from 'src/application/use-cases/tutores/getTutorById.usecase';
 import { DeleteTutorUseCase } from 'src/application/use-cases/tutores/deleteTutor.usecase';
+import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
+import { BcryptAdapter } from 'src/infrastructure/adapters/bcrypt.adapter';
 
 @Module({
   controllers: [TutorController],
@@ -27,6 +29,10 @@ import { DeleteTutorUseCase } from 'src/application/use-cases/tutores/deleteTuto
     {
       provide: USER_REPOSITORY,
       useClass: PrismaUserRepository,
+    },
+    {
+      provide: HASH_SERVICE,
+      useClass: BcryptAdapter
     }
   ]
 })

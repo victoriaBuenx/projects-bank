@@ -6,11 +6,13 @@ import type { IUserRepository } from "src/domain/interfaces/user.repository";
 import { REFRESH_TOKEN_REPOSITORY } from "src/domain/interfaces/refreshToken.repository";
 import { LoginResponseDto } from "../dtos/response/loginResponse.dto";
 import { LoginDto } from "../dtos/request/login.dto";
-import * as bycrypt from 'bcrypt';
 import { randomUUID } from "node:crypto";
 import { STUDENTS_REPOSITORY } from "src/domain/interfaces/students.repository";
 import type { IStudentsRepository } from "src/domain/interfaces/students.repository";
-import { TUTOR_REPOSITORY, type ITutorRepository } from "src/domain/interfaces/tutor.repository";
+import { TUTOR_REPOSITORY } from "src/domain/interfaces/tutor.repository";
+import type { ITutorRepository } from "src/domain/interfaces/tutor.repository";
+import { HASH_SERVICE } from "src/domain/interfaces/hash.service";
+import type { IHashService } from "src/domain/interfaces/hash.service";
 
 @Injectable()
 export class LoginUseCase {
@@ -27,6 +29,9 @@ export class LoginUseCase {
     @Inject(TUTOR_REPOSITORY)
     private readonly tutorRepository: ITutorRepository,
 
+    @Inject(HASH_SERVICE)
+    private readonly hashService: IHashService,
+
     private readonly jwtService: JwtService,
   ) { }
 
@@ -41,9 +46,9 @@ export class LoginUseCase {
       throw new ConflictException('Cuenta inactiva');
     }
 
-    const isPasswordValid = await bycrypt.compare(dto.password, existingUser.passwordHash);
+    const isMatch = await this.hashService.compare(dto.password, existingUser.passwordHash);
 
-    if (!isPasswordValid) {
+    if (!isMatch) {
       throw new ConflictException('Credenciales inválidas');
     }
 

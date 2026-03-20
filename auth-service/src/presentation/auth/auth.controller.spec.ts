@@ -3,17 +3,20 @@ import { AuthController } from './auth.controller';
 import { LoginUseCase } from 'src/application/use-cases/login.usecase';
 import { LogoutUseCase } from 'src/application/use-cases/logout.usecase';
 import { RegisterUserUseCase } from 'src/application/use-cases/registerUser.usecase';
+import { RefreshTokenUseCase } from 'src/application/use-cases/refreshToken/refreshToken.usecase';
 
 describe('AuthController', () => {
   let controller: AuthController;
   let loginUseCase: any;
   let logoutUseCase: any;
   let registerUseCase: any;
+  let refreshTokenUseCase: any;
 
   beforeEach(async () => {
     loginUseCase = { execute: jest.fn() };
     logoutUseCase = { execute: jest.fn() };
     registerUseCase = { execute: jest.fn() };
+    refreshTokenUseCase = { execute: jest.fn() };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
@@ -21,6 +24,7 @@ describe('AuthController', () => {
         { provide: LoginUseCase, useValue: loginUseCase },
         { provide: LogoutUseCase, useValue: logoutUseCase },
         { provide: RegisterUserUseCase, useValue: registerUseCase },
+        { provide: RefreshTokenUseCase, useValue: refreshTokenUseCase },
       ],
     }).compile();
 
@@ -49,5 +53,13 @@ describe('AuthController', () => {
     const res = await controller.logout(dto);
     expect(res).toEqual({ message: 'ok' });
     expect(logoutUseCase.execute).toHaveBeenCalledWith(dto);
+  });
+
+  it('should call refreshTokenUseCase', async () => {
+    refreshTokenUseCase.execute.mockResolvedValue({ accessToken: 'newToken' });
+    const dto = { refreshToken: 'rt' };
+    const res = await controller.refresh(dto);
+    expect(res).toEqual({ accessToken: 'newToken' });
+    expect(refreshTokenUseCase.execute).toHaveBeenCalledWith(dto);
   });
 });

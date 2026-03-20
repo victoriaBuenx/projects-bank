@@ -3,26 +3,25 @@ import { CreateTutoresUseCase } from './createTutores.usecase';
 import { TUTOR_REPOSITORY } from 'src/domain/interfaces/tutor.repository';
 import { USER_REPOSITORY } from 'src/domain/interfaces/user.repository';
 import { ConflictException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-
-jest.mock('bcrypt', () => ({
-  hash: jest.fn().mockResolvedValue('pwd'),
-}));
+import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
 
 describe('CreateTutoresUseCase', () => {
   let useCase: CreateTutoresUseCase;
   let tutorRepo: any;
   let userRepo: any;
+  let hashService: any;
 
   beforeEach(async () => {
     tutorRepo = { createTutor: jest.fn(), findByRfc: jest.fn() };
     userRepo = { findByEmail: jest.fn() };
+    hashService = { hash: jest.fn().mockResolvedValue('pwd') };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CreateTutoresUseCase,
         { provide: TUTOR_REPOSITORY, useValue: tutorRepo },
         { provide: USER_REPOSITORY, useValue: userRepo },
+        { provide: HASH_SERVICE, useValue: hashService },
       ],
     }).compile();
 

@@ -12,7 +12,10 @@ import { STUDENTS_REPOSITORY } from 'src/domain/interfaces/students.repository';
 import { TUTOR_REPOSITORY } from 'src/domain/interfaces/tutor.repository';
 import { PrismaTutoresRepository } from 'src/infrastructure/database/repositories/prismaTutores.repository';
 import { PrismaService } from 'src/infrastructure/database/prisma/prisma.service';
+import { RefreshTokenUseCase } from 'src/application/use-cases/refreshToken/refreshToken.usecase';
 import { RegisterUserUseCase } from 'src/application/use-cases/registerUser.usecase';
+import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
+import { BcryptAdapter } from 'src/infrastructure/adapters/bcrypt.adapter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
@@ -33,6 +36,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     LoginUseCase,
     LogoutUseCase,
     RegisterUserUseCase,
+    RefreshTokenUseCase,
     JwtStrategy,
     {
       provide: USER_REPOSITORY,
@@ -49,6 +53,10 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     {
       provide: TUTOR_REPOSITORY,
       useClass: PrismaTutoresRepository,
+    },
+    {
+      provide: HASH_SERVICE,
+      useClass: BcryptAdapter,
     }
   ],
   controllers: [AuthController],

@@ -1,8 +1,10 @@
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { type IUserRepository, USER_REPOSITORY } from "src/domain/interfaces/user.repository";
-import * as bcrypt from 'bcrypt';
-import { type ITutorRepository, TUTOR_REPOSITORY } from "src/domain/interfaces/tutor.repository";
+import { TUTOR_REPOSITORY } from "src/domain/interfaces/tutor.repository";
+import type { ITutorRepository } from "src/domain/interfaces/tutor.repository";
 import { CreateTutorDto } from "src/application/dtos/request/createTutor.dto";
+import { HASH_SERVICE } from "src/domain/interfaces/hash.service";
+import type { IHashService } from "src/domain/interfaces/hash.service";
 
 @Injectable()
 export class CreateTutoresUseCase {
@@ -12,6 +14,9 @@ export class CreateTutoresUseCase {
 
     @Inject(TUTOR_REPOSITORY)
     private readonly tutorRepository: ITutorRepository,
+
+    @Inject(HASH_SERVICE)
+    private readonly hashService: IHashService,
   ) {}
 
   async execute(dto: CreateTutorDto){
@@ -27,7 +32,7 @@ export class CreateTutoresUseCase {
       throw new ConflictException("El RFC ya está registrado");
     }
 
-    const passwordHash = await bcrypt.hash(dto.password, 10);
+    const passwordHash = await this.hashService.hash(dto.password);
 
     const tutor = await this.tutorRepository.createTutor(
       dto.department,

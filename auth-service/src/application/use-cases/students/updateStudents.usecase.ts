@@ -2,6 +2,8 @@ import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { UpdateStudentsDto } from "src/application/dtos/request/updateStudents.dto";
 import { type IStudentsRepository, STUDENTS_REPOSITORY } from "src/domain/interfaces/students.repository";
 import { type IUserRepository, USER_REPOSITORY } from "src/domain/interfaces/user.repository";
+import { HASH_SERVICE } from "src/domain/interfaces/hash.service";
+import type { IHashService } from "src/domain/interfaces/hash.service";
 
 @Injectable()
 export class UpdateStudentsUseCase{
@@ -11,6 +13,9 @@ export class UpdateStudentsUseCase{
 
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
+
+    @Inject(HASH_SERVICE)
+    private readonly hashService: IHashService,
   ){}
 
   async execute(id: string, dto: UpdateStudentsDto){
@@ -32,6 +37,10 @@ export class UpdateStudentsUseCase{
       if (existingControl && existingControl.id !== id) {
         throw new ConflictException("El número de control ya está registrado");
       }
+    }
+
+    if (dto.password) {
+      dto.password = await this.hashService.hash(dto.password);
     }
 
     const updatedStudent = await this.studentsRepository.update(id, dto);

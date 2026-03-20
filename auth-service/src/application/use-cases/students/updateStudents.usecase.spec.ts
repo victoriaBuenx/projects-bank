@@ -3,11 +3,13 @@ import { UpdateStudentsUseCase } from './updateStudents.usecase';
 import { STUDENTS_REPOSITORY } from 'src/domain/interfaces/students.repository';
 import { USER_REPOSITORY } from 'src/domain/interfaces/user.repository';
 import { ConflictException } from '@nestjs/common';
+import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
 
 describe('UpdateStudentsUseCase', () => {
   let useCase: UpdateStudentsUseCase;
   let studentsRepository: any;
   let userRepository: any;
+  let hashService: any;
 
   beforeEach(async () => {
     studentsRepository = {
@@ -18,12 +20,14 @@ describe('UpdateStudentsUseCase', () => {
     userRepository = {
       findByEmail: jest.fn(),
     };
+    hashService = { hash: jest.fn().mockResolvedValue('hashed_pwd') };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UpdateStudentsUseCase,
         { provide: STUDENTS_REPOSITORY, useValue: studentsRepository },
         { provide: USER_REPOSITORY, useValue: userRepository },
+        { provide: HASH_SERVICE, useValue: hashService },
       ],
     }).compile();
 

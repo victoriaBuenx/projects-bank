@@ -1,9 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { ITutorRepository } from "src/domain/interfaces/tutor.repository";
-import { TutorCreateInput } from "generated/prisma/models";
+import { Tutor } from "generated/prisma/browser";
 import { UpdateTutorDto } from "src/application/dtos/request/updateTutor.dto";
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class PrismaTutoresRepository implements ITutorRepository {
@@ -65,9 +64,7 @@ export class PrismaTutoresRepository implements ITutorRepository {
   }
 
   async update(id: string, dto: UpdateTutorDto) {
-    const passwordHash = dto.password
-    ? await bcrypt.hash(dto.password, 10)
-    : undefined;
+    const passwordHash = dto.password;
 
     return this.prisma.tutor.update({
       where: {id},

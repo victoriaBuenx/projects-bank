@@ -3,26 +3,25 @@ import { CreateStudentsUseCase } from './createStudents.usecase';
 import { STUDENTS_REPOSITORY } from 'src/domain/interfaces/students.repository';
 import { USER_REPOSITORY } from 'src/domain/interfaces/user.repository';
 import { ConflictException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-
-jest.mock('bcrypt', () => ({
-  hash: jest.fn().mockResolvedValue('hashedPassword'),
-}));
+import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
 
 describe('CreateStudentsUseCase', () => {
   let useCase: CreateStudentsUseCase;
   let studentsRepository: any;
   let userRepository: any;
+  let hashService: any;
 
   beforeEach(async () => {
     studentsRepository = { createStudent: jest.fn(), findByControlNumber: jest.fn() };
     userRepository = { findByEmail: jest.fn() };
+    hashService = { hash: jest.fn().mockResolvedValue('hashedPassword') };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CreateStudentsUseCase,
         { provide: STUDENTS_REPOSITORY, useValue: studentsRepository },
         { provide: USER_REPOSITORY, useValue: userRepository },
+        { provide: HASH_SERVICE, useValue: hashService },
       ],
     }).compile();
 

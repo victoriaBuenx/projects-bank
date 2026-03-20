@@ -1,4 +1,5 @@
 import { Body, Controller, Param, Post, Patch, Get, Delete, UseGuards } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { CreateStudentsDto } from 'src/application/dtos/request/createStudent.dto';
 import { UpdateStudentsDto } from 'src/application/dtos/request/updateStudents.dto';
 import { CreateStudentsUseCase } from 'src/application/use-cases/students/createStudents.usecase';
@@ -22,12 +23,14 @@ export class StudentController {
     private readonly deleteStudentUseCase: DeleteStudentUseCase,
   ){}
 
+  @Throttle({short: {ttl: 60000, limit: 5}})
   @Post('register')
   async registerStudent(@Body() body: CreateStudentsDto){
     console.log("BODY:", body);
     return this.createStudentUseCase.execute(body)
   }
 
+  @Throttle({short: {ttl: 60000, limit: 10}})
   @Patch(':id')
   async updateStudent(@Param('id') id:string, @Body() body: UpdateStudentsDto){
     console.log("BODY:", body);

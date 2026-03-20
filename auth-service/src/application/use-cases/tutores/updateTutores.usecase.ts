@@ -2,6 +2,8 @@ import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { UpdateTutorDto } from "src/application/dtos/request/updateTutor.dto";
 import { type ITutorRepository, TUTOR_REPOSITORY } from "src/domain/interfaces/tutor.repository";
 import { type IUserRepository, USER_REPOSITORY } from "src/domain/interfaces/user.repository";
+import { HASH_SERVICE } from "src/domain/interfaces/hash.service";
+import type { IHashService } from "src/domain/interfaces/hash.service";
 
 @Injectable()
 export class UpdateTutoresUseCase{
@@ -11,6 +13,9 @@ export class UpdateTutoresUseCase{
 
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
+
+    @Inject(HASH_SERVICE)
+    private readonly hashService: IHashService,
   ){}
 
   async execute(id: string, dto: UpdateTutorDto){
@@ -32,6 +37,10 @@ export class UpdateTutoresUseCase{
       if (existingRfc && existingRfc.id !== id) {
         throw new ConflictException("El RFC ya está registrado");
       }
+    }
+
+    if (dto.password) {
+      dto.password = await this.hashService.hash(dto.password);
     }
 
     const updatedTutor = await this.tutorRepository.update(id, dto);

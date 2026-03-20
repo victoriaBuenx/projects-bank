@@ -6,6 +6,8 @@ import { CreateStudentsUseCase } from 'src/application/use-cases/students/create
 import { USER_REPOSITORY } from 'src/domain/interfaces/user.repository';
 import { PrismaUserRepository } from 'src/infrastructure/database/repositories/prismaUser.repository';
 import { PrismaService } from 'src/infrastructure/database/prisma/prisma.service';
+import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
+import { BcryptAdapter } from 'src/infrastructure/adapters/bcrypt.adapter';
 import { UpdateStudentsDto } from 'src/application/dtos/request/updateStudents.dto';
 import { UpdateStudentsUseCase } from 'src/application/use-cases/students/updateStudents.usecase';
 import { GetAllStudentsUseCase } from 'src/application/use-cases/students/getAllStudents.usecase';
@@ -28,6 +30,10 @@ import { DeleteStudentUseCase } from 'src/application/use-cases/students/deleteS
     {
       provide: USER_REPOSITORY,
       useClass: PrismaUserRepository,
+    },
+    {
+      provide: HASH_SERVICE,
+      useClass: BcryptAdapter
     }
   ]
 })

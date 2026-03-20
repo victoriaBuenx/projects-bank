@@ -1,8 +1,10 @@
 import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { CreateStudentsDto } from "src/application/dtos/request/createStudent.dto";
-import { type IStudentsRepository, STUDENTS_REPOSITORY } from "src/domain/interfaces/students.repository";
+import { STUDENTS_REPOSITORY } from "src/domain/interfaces/students.repository";
+import type { IStudentsRepository } from "src/domain/interfaces/students.repository";
 import { type IUserRepository, USER_REPOSITORY } from "src/domain/interfaces/user.repository";
-import * as bcrypt from 'bcrypt';
+import { HASH_SERVICE } from "src/domain/interfaces/hash.service";
+import type { IHashService } from "src/domain/interfaces/hash.service";
 
 @Injectable()
 export class CreateStudentsUseCase {
@@ -12,6 +14,9 @@ export class CreateStudentsUseCase {
 
     @Inject(STUDENTS_REPOSITORY)
     private readonly studentsRepository: IStudentsRepository,
+
+    @Inject(HASH_SERVICE)
+    private readonly hashService: IHashService,
   ) {}
 
   async execute(dto: CreateStudentsDto){
@@ -27,7 +32,7 @@ export class CreateStudentsUseCase {
       throw new ConflictException("El número de control ya está registrado");
     }
 
-    const passwordHash = await bcrypt.hash(dto.password, 10);
+    const passwordHash = await this.hashService.hash(dto.password);
 
 
     const student = await this.studentsRepository.createStudent(

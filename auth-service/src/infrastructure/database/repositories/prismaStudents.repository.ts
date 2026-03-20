@@ -3,7 +3,6 @@ import { IStudentsRepository } from "src/domain/interfaces/students.repository";
 import { PrismaService } from "../prisma/prisma.service";
 import { Student } from "generated/prisma/browser";
 import { UpdateStudentsDto } from "src/application/dtos/request/updateStudents.dto";
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class PrismaStudentsRepository implements IStudentsRepository {
@@ -65,9 +64,7 @@ export class PrismaStudentsRepository implements IStudentsRepository {
   } 
 
   async update(id: string, dto: UpdateStudentsDto) {
-    const passwordHash = dto.password
-    ? await bcrypt.hash(dto.password, 10)
-    : undefined;
+    const passwordHash = dto.password;
 
     return this.prisma.student.update({
       where: {id},

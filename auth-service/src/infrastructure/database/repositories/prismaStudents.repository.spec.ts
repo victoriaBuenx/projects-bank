@@ -2,10 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaStudentsRepository } from './prismaStudents.repository';
 import { PrismaService } from '../prisma/prisma.service';
 
-jest.mock('bcrypt', () => ({
-  hash: jest.fn().mockResolvedValue('hashed'),
-}));
-
 describe('PrismaStudentsRepository', () => {
   let repository: PrismaStudentsRepository;
   let prisma: any;
@@ -71,7 +67,7 @@ describe('PrismaStudentsRepository', () => {
   it('update', async () => {
     prisma.student.update.mockResolvedValue({ id: '4', userId: 'u4' });
 
-    await repository.update('4', { email: 'new@e.com', career: 'X' });
+    await repository.update('4', { email: 'new@e.com', career: 'X', password: 'pwd' });
 
     expect(prisma.student.update).toHaveBeenCalledWith({
       where: { id: '4' },
@@ -79,7 +75,7 @@ describe('PrismaStudentsRepository', () => {
         career: 'X',
         controlNumber: undefined,
         user: {
-          update: { email: 'new@e.com', name: undefined, lastName: undefined, motherLastName: undefined }
+          update: { email: 'new@e.com', name: undefined, lastName: undefined, motherLastName: undefined, passwordHash: 'pwd' }
         }
       },
       include: { user: true }

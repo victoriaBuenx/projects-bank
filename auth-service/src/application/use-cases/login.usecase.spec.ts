@@ -6,12 +6,8 @@ import { STUDENTS_REPOSITORY } from 'src/domain/interfaces/students.repository';
 import { TUTOR_REPOSITORY } from 'src/domain/interfaces/tutor.repository';
 import { JwtService } from '@nestjs/jwt';
 import { ConflictException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 import * as crypto from 'node:crypto';
-
-jest.mock('bcrypt', () => ({
-  compare: jest.fn(),
-}));
+import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
 
 jest.mock('node:crypto', () => ({
   randomUUID: jest.fn().mockReturnValue('fake-uuid'),
@@ -24,6 +20,7 @@ describe('LoginUseCase', () => {
   let studentsRepository: any;
   let tutorRepository: any;
   let jwtService: any;
+  let hashService: any;
 
   beforeEach(async () => {
     userRepository = { findByEmail: jest.fn() };
@@ -31,6 +28,7 @@ describe('LoginUseCase', () => {
     studentsRepository = { findById: jest.fn() };
     tutorRepository = { findById: jest.fn() };
     jwtService = { sign: jest.fn().mockReturnValue('mock-jwt') };
+    hashService = { compare: jest.fn() };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -40,6 +38,7 @@ describe('LoginUseCase', () => {
         { provide: STUDENTS_REPOSITORY, useValue: studentsRepository },
         { provide: TUTOR_REPOSITORY, useValue: tutorRepository },
         { provide: JwtService, useValue: jwtService },
+        { provide: HASH_SERVICE, useValue: hashService },
       ],
     }).compile();
 
@@ -58,13 +57,13 @@ describe('LoginUseCase', () => {
 
   it('should throw if password mismatches', async () => {
     userRepository.findByEmail.mockResolvedValue({ isActive: true, passwordHash: 'hash' });
-    (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+    hashService.compare.mockResolvedValue(false);
     await expect(useCase.execute({ email: 'x', password: 'x' })).rejects.toThrow(ConflictException);
   });
 
   it('should login and return tokens', async () => {
     userRepository.findByEmail.mockResolvedValue({ id: 'u1', email: 'test@x.com', role: 'USER', isActive: true, passwordHash: 'hash' });
-    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+    hashService.compare.mockResolvedValue(true);
     studentsRepository.findById.mockResolvedValue(null);
     tutorRepository.findById.mockResolvedValue({ id: 't1' }); // Is technically a tutor
 
