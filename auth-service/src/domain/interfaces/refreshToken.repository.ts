@@ -1,7 +1,8 @@
-import { RefreshToken } from "../entities/refreshToken.entity";
+import { RefreshToken } from "generated/prisma/browser";
+import { RefreshTokenCreateInput } from "generated/prisma/models";
 
-export interface RefreshTokenRepository {
-  create(refreshToken: RefreshToken): Promise<void>;
+export interface IRefreshTokenRepository {
+  create(rereshToken: RefreshTokenCreateInput ): Promise<void>;
   findByToken(token: string): Promise<RefreshToken | null>;
   revokeByUserId(userId: string): Promise<void>;
 }

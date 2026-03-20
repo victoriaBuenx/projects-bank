@@ -1,6 +1,14 @@
-import { IsEmail, IsString, Length, IsNotEmpty } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, Length, Matches } from "class-validator";
 
-export class CreateUserDto {
+export class CreateStudentsDto{
+  @IsNotEmpty()
+  @Matches(/^\d{8}$/)
+  controlNumber: string;
+
+  @IsNotEmpty()
+  @IsString()
+  career: string;
+
   @IsEmail()
   @IsNotEmpty()
   email: string;

@@ -1,10 +1,18 @@
 import { Injectable, OnModuleInit, OnModuleDestroy, Logger} from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from 'generated/prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy 
 {
   private readonly logger = new Logger('ApiService');
+
+  constructor() {
+    const adapter= new PrismaPg({
+      connectionString: "postgresql://postgres:myg0903.@localhost:5432/auth_db?schema=public"
+    })
+    super({ adapter });
+  }
 
   async onModuleInit() {
     try {

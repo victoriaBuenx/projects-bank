@@ -1,9 +1,28 @@
 import { Module } from '@nestjs/common';
-import { PrismaModule } from './infrastructure/database/prisma/prisma.module';
-import { AuthModule } from './presentation/auth/auth/auth.module';
+import { AuthModule } from './presentation/auth/auth.module';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import {ConfigModule} from '@nestjs/config';
+import { StudentModule } from './presentation/student/student.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule],
+  imports: [AuthModule, StudentModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    ThrottlerModule.forRoot([
+      {
+        name: 'short',
+        ttl: 1000,
+        limit: 3,
+      },
+      {
+        name: 'long',
+        ttl: 60000,
+        limit: 20,
+      }
+    ]),
+  ],
   controllers: [],
   providers: [],
 })
