@@ -8,6 +8,9 @@ import { PrismaUserRepository } from 'src/infrastructure/database/repositories/p
 import { PrismaService } from 'src/infrastructure/database/prisma/prisma.service';
 import { UpdateStudentsDto } from 'src/application/dtos/request/updateStudents.dto';
 import { UpdateStudentsUseCase } from 'src/application/use-cases/students/updateStudents.usecase';
+import { GetAllStudentsUseCase } from 'src/application/use-cases/students/getAllStudents.usecase';
+import { GetStudentByIdUseCase } from 'src/application/use-cases/students/getStudentById.usecase';
+import { DeleteStudentUseCase } from 'src/application/use-cases/students/deleteStudent.usecase';
 
 @Module({
   controllers: [StudentController],
@@ -15,6 +18,9 @@ import { UpdateStudentsUseCase } from 'src/application/use-cases/students/update
     PrismaService,
     CreateStudentsUseCase,
     UpdateStudentsUseCase,
+    GetAllStudentsUseCase,
+    GetStudentByIdUseCase,
+    DeleteStudentUseCase,
     {
       provide: STUDENTS_REPOSITORY,
       useClass: PrismaStudentsRepository,

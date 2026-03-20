@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { ITutorRepository } from "src/domain/interfaces/tutor.repository";
-import { Tutor } from "generated/prisma/browser";
 import { TutorCreateInput } from "generated/prisma/models";
+import { UpdateTutorDto } from "src/application/dtos/request/updateTutor.dto";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class PrismaTutoresRepository implements ITutorRepository {
@@ -10,25 +11,80 @@ export class PrismaTutoresRepository implements ITutorRepository {
     private readonly prisma: PrismaService
   ) {}
 
-  findByRfc(rfc: string): Promise<Tutor | null> {
+  findByRfc(rfc: string) {
     return this.prisma.tutor.findUnique({
       where: { rfc },
     });
   }
 
-  createTutor(tutor: TutorCreateInput): Promise<Tutor> {
+  async createTutor(
+    department: string,
+    rfc: string,
+    email: string,
+    passwordHash: string,
+    name: string,
+    lastName: string,
+    motherLastName: string
+  ) {
       return this.prisma.tutor.create({
         data: {
-          department: tutor.department,
-          rfc: tutor.rfc,
-          user: { connect: {id: tutor.id}}
-        }
+          department: department,
+          rfc: rfc,
+          user: {
+            create: {
+              email: email,
+              passwordHash: passwordHash,
+              name: name,
+              lastName: lastName,
+              motherLastName: motherLastName
+            }
+          }
+        },
+        include: { user: true },
       })
   }
 
-  findById(id: string): Promise<Tutor | null> {
+  findById(id: string) {
       return this.prisma.tutor.findUnique({
         where: {id},
+        include: { user: true },
       })
+  }
+
+  findAll() {
+      return this.prisma.tutor.findMany({
+        include: { user: true },
+      });
+  }
+
+  delete(id: string) {
+      return this.prisma.tutor.delete({
+        where: { id },
+        include: { user: true },
+      });
+  }
+
+  async update(id: string, dto: UpdateTutorDto) {
+    const passwordHash = dto.password
+    ? await bcrypt.hash(dto.password, 10)
+    : undefined;
+
+    return this.prisma.tutor.update({
+      where: {id},
+      data: {
+        department: dto.department,
+        rfc: dto.rfc,
+        user:{
+          update:{
+            email: dto.email,
+            name: dto.name,
+            lastName: dto.lastName,
+            motherLastName: dto.motherLastName,
+            ...(passwordHash && { passwordHash }), 
+          }
+        }
+      },
+      include: { user: true },
+    });
   }
 }

@@ -1,15 +1,15 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString, Length, Matches } from "class-validator";
 
-export class UpdateStudentsDto{
+export class UpdateTutorDto{
   @IsOptional()
   @IsNotEmpty()
-  @Matches(/^\d{8}$/)
-  controlNumber?: string;
+  @Matches(/^[A-Z&Ñ]{3,4}\d{6}[A-Z\d]{3}$/)
+  rfc?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  career?: string;
+  department?: string;
 
   @IsOptional()
   @IsEmail()

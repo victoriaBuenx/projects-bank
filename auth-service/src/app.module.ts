@@ -3,9 +3,10 @@ import { AuthModule } from './presentation/auth/auth.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import {ConfigModule} from '@nestjs/config';
 import { StudentModule } from './presentation/student/student.module';
+import { TutorModule } from './presentation/tutor/tutor.module';
 
 @Module({
-  imports: [AuthModule, StudentModule,
+  imports: [AuthModule, StudentModule, TutorModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',

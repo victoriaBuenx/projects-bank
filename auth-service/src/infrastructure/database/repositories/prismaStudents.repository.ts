@@ -11,9 +11,23 @@ export class PrismaStudentsRepository implements IStudentsRepository {
     private readonly prisma: PrismaService
   ) {}
 
-  findById(id: string): Promise<Student | null> {
+  findById(id: string) {
       return this.prisma.student.findUnique({
         where: { id },
+        include: { user: true },
+      });
+  }
+
+  findAll() {
+      return this.prisma.student.findMany({
+        include: { user: true },
+      });
+  }
+
+  delete(id: string) {
+      return this.prisma.student.delete({
+        where: { id },
+        include: { user: true },
       });
   }
 
