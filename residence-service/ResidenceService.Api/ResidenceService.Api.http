@@ -1,0 +1,6 @@
+@ResidenceService.Api_HostAddress = http://localhost:5155
+
+GET {{ResidenceService.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

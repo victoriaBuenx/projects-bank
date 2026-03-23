@@ -35,7 +35,7 @@ describe('PrismaRefreshTokenRepository', () => {
     prisma.refreshToken.updateMany.mockResolvedValue({ count: 1 });
     await repository.revokeByUserId('1');
     expect(prisma.refreshToken.updateMany).toHaveBeenCalledWith({
-      where: { token: '1' },
+      where: { userId: '1' },
       data: { revoked: true },
     });
   });

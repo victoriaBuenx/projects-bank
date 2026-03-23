@@ -5,7 +5,7 @@ import { RefreshTokenCreateInput } from "generated/prisma/models";
 
 @Injectable()
 export class PrismaRefreshTokenRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(refreshToken: RefreshTokenCreateInput): Promise<RefreshToken> {
     return await this.prisma.refreshToken.create({
@@ -23,16 +23,16 @@ export class PrismaRefreshTokenRepository {
     });
   }
 
-  async revokeByUserId(token: string): Promise<void> {
+  async revokeByUserId(userId: string): Promise<void> {
     await this.prisma.refreshToken.updateMany({
-      where: { token },
+      where: { userId },
       data: { revoked: true },
     });
   }
 
-  async delete(id: string): Promise<void>{
+  async delete(id: string): Promise<void> {
     await this.prisma.refreshToken.delete({
-      where: {id},
+      where: { id },
     });
   }
 }

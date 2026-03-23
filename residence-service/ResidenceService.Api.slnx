@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ResidenceService.Api.Application/ResidenceService.Api.Application.csproj" />
+  <Project Path="ResidenceService.Api.Domain/ResidenceService.Api.Domain.csproj" />
+  <Project Path="ResidenceService.Api.Infrastructure/ResidenceService.Api.Infrastructure.csproj" />
+  <Project Path="ResidenceService.Api.Presentation/ResidenceService.Api.Presentation.csproj" />
+  <Project Path="ResidenceService.Api/ResidenceService.Api.csproj" />
+</Solution>

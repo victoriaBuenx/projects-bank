@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "085QULhX/XI=",
+  "success": true,
+  "projectFilePath": "C:\\proyectoTopicos\\projects-bank\\projects-bank\\residence-service\\ResidenceService.Api\\ResidenceService.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\victo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.4\\microsoft.aspnetcore.openapi.10.0.4.nupkg.sha512",
+    "C:\\Users\\victo\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
