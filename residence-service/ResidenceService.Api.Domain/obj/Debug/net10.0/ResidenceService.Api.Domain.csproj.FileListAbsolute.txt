@@ -1,0 +1,12 @@
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\bin\Debug\net10.0\ResidenceService.Api.Domain.deps.json
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\bin\Debug\net10.0\ResidenceService.Api.Domain.dll
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\bin\Debug\net10.0\ResidenceService.Api.Domain.pdb
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\obj\Debug\net10.0\ResidenceService.Api.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\obj\Debug\net10.0\ResidenceService.Api.Domain.AssemblyInfoInputs.cache
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\obj\Debug\net10.0\ResidenceService.Api.Domain.AssemblyInfo.cs
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\obj\Debug\net10.0\ResidenceService.Api.Domain.csproj.CoreCompileInputs.cache
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\obj\Debug\net10.0\ResidenceService.Api.Domain.sourcelink.json
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\obj\Debug\net10.0\ResidenceService.Api.Domain.dll
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\obj\Debug\net10.0\refint\ResidenceService.Api.Domain.dll
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\obj\Debug\net10.0\ResidenceService.Api.Domain.pdb
+C:\proyectoTopicos\projects-bank\projects-bank\residence-service\ResidenceService.Api.Domain\obj\Debug\net10.0\ref\ResidenceService.Api.Domain.dll

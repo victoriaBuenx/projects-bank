@@ -1,8 +1,125 @@
+using ResidenceService.Api.Infrastructure.database.context;
+using ResidenceService.Api.Infrastructure.database.repositories;
+using ResidenceService.Api.Domain.interfaces;
+using ResidenceService.Api.Application.use_cases.companies;
+using ResidenceService.Api.Application.use_cases.companyContacts;
+using ResidenceService.Api.Application.use_cases.projects;
+using ResidenceService.Api.Application.use_cases.projectAssignments;
+using ResidenceService.Api.Application.use_cases.deliverables;
+using ResidenceService.Api.Application.use_cases.deliverableAssignments;
+using ResidenceService.Api.Application.use_cases.deliverableSubmissions;
+using ResidenceService.Api.Application.use_cases.companyRatings;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// JWT Configuration
+var jwtSecret = builder.Configuration["Jwt:Secret"] ?? throw new Exception("JWT Secret not found");
+var key = Encoding.ASCII.GetBytes(jwtSecret);
+
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        NameClaimType = "email",
+        RoleClaimType = "role" // NestJS uses 'role'
+    };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("role", "ADMIN"));
+    options.AddPolicy("StudentOnly", policy => policy.RequireClaim("type", "STUDENT"));
+    options.AddPolicy("TutorOnly", policy => policy.RequireClaim("type", "TUTOR"));
+    options.AddPolicy("AdminOrStudent", policy => policy.RequireAssertion(context => 
+        context.User.HasClaim("role", "ADMIN") || context.User.HasClaim("type", "STUDENT")));
+    options.AddPolicy("AdminOrTutor", policy => policy.RequireAssertion(context => 
+        context.User.HasClaim("role", "ADMIN") || context.User.HasClaim("type", "TUTOR")));
+});
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Dependency Injection
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
+// Company Services
+builder.Services.AddScoped<ICompanieRepository, CompanieRepository>();
+builder.Services.AddScoped<CreateCompanieUseCase>();
+builder.Services.AddScoped<GetAllCompaniesUseCase>();
+builder.Services.AddScoped<GetCompanieUseCase>();
+builder.Services.AddScoped<UpdateCompanieUseCase>();
+builder.Services.AddScoped<DeleteCompanieUseCase>();
+
+// Contact Services
+builder.Services.AddScoped<ICompanieContactRepository, CompanieContactRepository>();
+builder.Services.AddScoped<CreateCompanieContactUseCase>();
+builder.Services.AddScoped<UpdateCompanieContactUseCase>();
+builder.Services.AddScoped<DeleteCompanieContactUseCase>();
+builder.Services.AddScoped<GetCompanieContactUseCase>();
+builder.Services.AddScoped<GetAllCompanieContactsUseCase>();
+
+// Project Services
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<CreateProjectUseCase>();
+builder.Services.AddScoped<GetAllProjectsUseCase>();
+builder.Services.AddScoped<GetProjectUseCase>();
+builder.Services.AddScoped<UpdateProjectUseCase>();
+builder.Services.AddScoped<DeleteProjectUseCase>();
+
+// Assignment Services
+builder.Services.AddScoped<IProjectAssignmentRepository, ProjectAssignmentRepository>();
+builder.Services.AddScoped<CreateProjectAssignmentUseCase>();
+builder.Services.AddScoped<GetAllProjectAssignmentsUseCase>();
+builder.Services.AddScoped<GetProjectAssignmentUseCase>();
+builder.Services.AddScoped<UpdateProjectAssignmentUseCase>();
+builder.Services.AddScoped<DeleteProjectAssignmentUseCase>();
+
+// Deliverable Services
+builder.Services.AddScoped<IDeliverableRepository, DeliverableRepository>();
+builder.Services.AddScoped<CreateDeliverableUseCase>();
+builder.Services.AddScoped<GetAllDeliverablesUseCase>();
+builder.Services.AddScoped<GetDeliverableUseCase>();
+builder.Services.AddScoped<UpdateDeliverableUseCase>();
+builder.Services.AddScoped<DeleteDeliverableUseCase>();
+
+// Deliverable Assignment Services
+builder.Services.AddScoped<IDeliverableAssignmentRepository, DeliverableAssignmentRepository>();
+builder.Services.AddScoped<CreateDeliverableAssignmentUseCase>();
+builder.Services.AddScoped<GetAllDeliverableAssignmentsUseCase>();
+
+// Deliverable Submission Services
+builder.Services.AddScoped<IDeliverableSubmissionRepository, DeliverableSubmissionRepository>();
+builder.Services.AddScoped<CreateDeliverableSubmissionUseCase>();
+builder.Services.AddScoped<GradeDeliverableSubmissionUseCase>();
+
+// Company Rating Services
+builder.Services.AddScoped<ICompanyRatingRepository, CompanyRatingRepository>();
+builder.Services.AddScoped<CreateCompanyRatingUseCase>();
+builder.Services.AddScoped<GetAllCompanyRatingsUseCase>();
 
 var app = builder.Build();
 
@@ -12,6 +129,10 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 
 var summaries = new[]
 {
@@ -38,3 +159,4 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+public partial class Program { }

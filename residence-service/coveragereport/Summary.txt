@@ -1,0 +1,102 @@
+Summary
+  Generated on: 27/03/2026 - 01:06:24 a. m.
+  Coverage date: 27/03/2026 - 01:06:23 a. m.
+  Parser: Cobertura
+  Assemblies: 4
+  Classes: 74
+  Files: 70
+  Line coverage: 50.3%
+  Covered lines: 899
+  Uncovered lines: 885
+  Coverable lines: 1784
+  Total lines: 3217
+  Branch coverage: 19.9% (63 of 316)
+  Covered branches: 63
+  Total branches: 316
+  Method coverage: 81.8% (302 of 369)
+  Full method coverage: 81.5% (301 of 369)
+  Covered methods: 302
+  Fully covered methods: 301
+  Total methods: 369
+
+ResidenceService.Api                                                                                         0%
+  Microsoft.AspNetCore.OpenApi.Generated                                                                     0%
+  Program                                                                                                    0%
+  ResidenceService.Api.Controllers.CompanieContactController                                                 0%
+  ResidenceService.Api.Controllers.CompanieController                                                        0%
+  ResidenceService.Api.Controllers.CompanyRatingController                                                   0%
+  ResidenceService.Api.Controllers.DeliverableAssignmentController                                           0%
+  ResidenceService.Api.Controllers.DeliverableController                                                     0%
+  ResidenceService.Api.Controllers.DeliverableSubmissionController                                           0%
+  ResidenceService.Api.Controllers.ProjectAssignmentController                                               0%
+  ResidenceService.Api.Controllers.ProjectController                                                         0%
+  System.Runtime.CompilerServices                                                                            0%
+  WeatherForecast                                                                                            0%
+
+ResidenceService.Api.Application                                                                           100%
+  ResidenceService.Api.Application.dtos.companies.CreateCompanieDto                                        100%
+  ResidenceService.Api.Application.dtos.companies.UpdateCompanieDto                                        100%
+  ResidenceService.Api.Application.dtos.companyContacts.CreateCompanieContactDto                           100%
+  ResidenceService.Api.Application.dtos.companyContacts.UpdateCompanieContactDto                           100%
+  ResidenceService.Api.Application.dtos.companyRatings.CreateCompanyRatingDto                              100%
+  ResidenceService.Api.Application.dtos.deliverableAssignments.CreateDeliverableAssignmentDto              100%
+  ResidenceService.Api.Application.dtos.deliverables.CreateDeliverableDto                                  100%
+  ResidenceService.Api.Application.dtos.deliverables.UpdateDeliverableDto                                  100%
+  ResidenceService.Api.Application.dtos.deliverableSubmissions.CreateDeliverableSubmissionDto              100%
+  ResidenceService.Api.Application.dtos.deliverableSubmissions.GradeDeliverableSubmissionDto               100%
+  ResidenceService.Api.Application.dtos.projectAssignments.CreateProjectAssignmentDto                      100%
+  ResidenceService.Api.Application.dtos.projectAssignments.UpdateProjectAssignmentDto                      100%
+  ResidenceService.Api.Application.dtos.projects.CreateProjectDto                                          100%
+  ResidenceService.Api.Application.dtos.projects.UpdateProjectDto                                          100%
+  ResidenceService.Api.Application.use_cases.companies.CreateCompanieUseCase                               100%
+  ResidenceService.Api.Application.use_cases.companies.DeleteCompanieUseCase                               100%
+  ResidenceService.Api.Application.use_cases.companies.GetAllCompaniesUseCase                              100%
+  ResidenceService.Api.Application.use_cases.companies.GetCompanieUseCase                                  100%
+  ResidenceService.Api.Application.use_cases.companies.UpdateCompanieUseCase                               100%
+  ResidenceService.Api.Application.use_cases.companyContacts.CreateCompanieContactUseCase                  100%
+  ResidenceService.Api.Application.use_cases.companyContacts.DeleteCompanieContactUseCase                  100%
+  ResidenceService.Api.Application.use_cases.companyContacts.GetAllCompanieContactsUseCase                 100%
+  ResidenceService.Api.Application.use_cases.companyContacts.GetCompanieContactUseCase                     100%
+  ResidenceService.Api.Application.use_cases.companyContacts.UpdateCompanieContactUseCase                  100%
+  ResidenceService.Api.Application.use_cases.companyRatings.CreateCompanyRatingUseCase                     100%
+  ResidenceService.Api.Application.use_cases.companyRatings.GetAllCompanyRatingsUseCase                    100%
+  ResidenceService.Api.Application.use_cases.deliverableAssignments.CreateDeliverableAssignmentUseCase     100%
+  ResidenceService.Api.Application.use_cases.deliverableAssignments.GetAllDeliverableAssignmentsUseCase    100%
+  ResidenceService.Api.Application.use_cases.deliverables.CreateDeliverableUseCase                         100%
+  ResidenceService.Api.Application.use_cases.deliverables.DeleteDeliverableUseCase                         100%
+  ResidenceService.Api.Application.use_cases.deliverables.GetAllDeliverablesUseCase                        100%
+  ResidenceService.Api.Application.use_cases.deliverables.GetDeliverableUseCase                            100%
+  ResidenceService.Api.Application.use_cases.deliverables.UpdateDeliverableUseCase                         100%
+  ResidenceService.Api.Application.use_cases.deliverableSubmissions.CreateDeliverableSubmissionUseCase     100%
+  ResidenceService.Api.Application.use_cases.deliverableSubmissions.GradeDeliverableSubmissionUseCase      100%
+  ResidenceService.Api.Application.use_cases.projectAssignments.CreateProjectAssignmentUseCase             100%
+  ResidenceService.Api.Application.use_cases.projectAssignments.DeleteProjectAssignmentUseCase             100%
+  ResidenceService.Api.Application.use_cases.projectAssignments.GetAllProjectAssignmentsUseCase            100%
+  ResidenceService.Api.Application.use_cases.projectAssignments.GetProjectAssignmentUseCase                100%
+  ResidenceService.Api.Application.use_cases.projectAssignments.UpdateProjectAssignmentUseCase             100%
+  ResidenceService.Api.Application.use_cases.projects.CreateProjectUseCase                                 100%
+  ResidenceService.Api.Application.use_cases.projects.DeleteProjectUseCase                                 100%
+  ResidenceService.Api.Application.use_cases.projects.GetAllProjectsUseCase                                100%
+  ResidenceService.Api.Application.use_cases.projects.GetProjectUseCase                                    100%
+  ResidenceService.Api.Application.use_cases.projects.UpdateProjectUseCase                                 100%
+
+ResidenceService.Api.Domain                                                                                100%
+  ResidenceService.Api.Domain.entities.Companie                                                            100%
+  ResidenceService.Api.Domain.entities.CompanieContact                                                     100%
+  ResidenceService.Api.Domain.entities.CompanyRating                                                       100%
+  ResidenceService.Api.Domain.entities.Deliverable                                                         100%
+  ResidenceService.Api.Domain.entities.DeliverableAssignment                                               100%
+  ResidenceService.Api.Domain.entities.DeliverableSubmission                                               100%
+  ResidenceService.Api.Domain.entities.Project                                                             100%
+  ResidenceService.Api.Domain.entities.ProjectAssignment                                                   100%
+
+ResidenceService.Api.Infrastructure                                                                       99.6%
+  ResidenceService.Api.Infrastructure.database.context.AppDbContext                                        100%
+  ResidenceService.Api.Infrastructure.database.repositories.CompanieContactRepository                      100%
+  ResidenceService.Api.Infrastructure.database.repositories.CompanieRepository                             100%
+  ResidenceService.Api.Infrastructure.database.repositories.CompanyRatingRepository                        100%
+  ResidenceService.Api.Infrastructure.database.repositories.DeliverableAssignmentRepository               97.9%
+  ResidenceService.Api.Infrastructure.database.repositories.DeliverableRepository                          100%
+  ResidenceService.Api.Infrastructure.database.repositories.DeliverableSubmissionRepository                100%
+  ResidenceService.Api.Infrastructure.database.repositories.ProjectAssignmentRepository                    100%
+  ResidenceService.Api.Infrastructure.database.repositories.ProjectRepository                              100%

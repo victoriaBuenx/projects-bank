@@ -197,6 +197,16 @@
             "related": ".xml"
           }
         }
+      },
+      "ResidenceService.Api.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/ResidenceService.Api.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ResidenceService.Api.Domain.dll": {}
+        }
       }
     }
   },
@@ -551,29 +561,35 @@
         "microsoft.identitymodel.tokens.8.14.0.nupkg.sha512",
         "microsoft.identitymodel.tokens.nuspec"
       ]
+    },
+    "ResidenceService.Api.Domain/1.0.0": {
+      "type": "project",
+      "path": "../ResidenceService.Api.Domain/ResidenceService.Api.Domain.csproj",
+      "msbuildProject": "../ResidenceService.Api.Domain/ResidenceService.Api.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
       "AutoMapper >= 16.1.1",
       "FluentValidation >= 12.1.1",
-      "MediatR >= 14.1.0"
+      "MediatR >= 14.1.0",
+      "ResidenceService.Api.Domain >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\victo\\.nuget\\packages\\": {}
+    "/Users/mackbookairm1/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\proyectoTopicos\\projects-bank\\projects-bank\\residence-service\\ResidenceService.Api.Application\\ResidenceService.Api.Application.csproj",
+      "projectUniqueName": "/Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api.Application/ResidenceService.Api.Application.csproj",
       "projectName": "ResidenceService.Api.Application",
-      "projectPath": "C:\\proyectoTopicos\\projects-bank\\projects-bank\\residence-service\\ResidenceService.Api.Application\\ResidenceService.Api.Application.csproj",
-      "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
-      "outputPath": "C:\\proyectoTopicos\\projects-bank\\projects-bank\\residence-service\\ResidenceService.Api.Application\\obj\\",
+      "projectPath": "/Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api.Application/ResidenceService.Api.Application.csproj",
+      "packagesPath": "/Users/mackbookairm1/.nuget/packages/",
+      "outputPath": "/Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api.Application/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/mackbookairm1/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -584,7 +600,11 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api.Domain/ResidenceService.Api.Domain.csproj": {
+              "projectPath": "/Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api.Domain/ResidenceService.Api.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -597,7 +617,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net10.0": {
@@ -632,7 +652,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.202/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

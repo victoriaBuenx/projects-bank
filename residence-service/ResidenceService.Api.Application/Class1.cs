@@ -1,4 +1,4 @@
-﻿namespace ResidenceService.Api.Application;
+namespace ResidenceService.Api.Application;
 
 public class Class1
 {
