@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client"
+  output = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  lastName      String
+  motherLastName String
+  email         String         @unique
+  passwordHash  String
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  refreshTokens RefreshToken[]
+  role          RoleType       @default(USER)   
+  student       Student?
+  tutor         Tutor?
+}
+
+model Student{
+  id               String      @id @default(uuid())
+  controlNumber    String      @unique 
+  career           String
+  userId           String      @unique
+  user             User        @relation(fields: [userId], references: [id])
+}
+
+model Tutor {
+  id               String  @id @default(uuid())
+  rfc              String  @unique
+  department       String
+  userId           String  @unique 
+  user             User    @relation(fields: [userId], references: [id])
+}
+
+enum RoleType {
+  ADMIN
+  USER
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  userId    String
+
+  token     String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  revoked   Boolean  @default(false)
+}

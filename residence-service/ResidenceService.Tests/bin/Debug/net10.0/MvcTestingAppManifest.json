@@ -1,0 +1,6 @@
+{
+  "ResidenceService.Api.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\proyectoTopicos\\projects-bank\\projects-bank\\residence-service\\ResidenceService.Api.Application",
+  "ResidenceService.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\proyectoTopicos\\projects-bank\\projects-bank\\residence-service\\ResidenceService.Api",
+  "ResidenceService.Api.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\proyectoTopicos\\projects-bank\\projects-bank\\residence-service\\ResidenceService.Api.Domain",
+  "ResidenceService.Api.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\proyectoTopicos\\projects-bank\\projects-bank\\residence-service\\ResidenceService.Api.Infrastructure"
+}
