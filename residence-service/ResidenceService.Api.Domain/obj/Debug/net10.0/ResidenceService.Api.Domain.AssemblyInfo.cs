@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ResidenceService.Api.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3496bf0aba6489f78f85edea45e0500c249c4158")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1beb05f9cf8ab1fdf9630232455a94af1afbcdf4")]
 [assembly: System.Reflection.AssemblyProductAttribute("ResidenceService.Api.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ResidenceService.Api.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
