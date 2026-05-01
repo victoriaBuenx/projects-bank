@@ -1,4 +1,4 @@
-import { TutorCreateInput } from "generated/prisma/models";
+import { TutorCreateInput } from "src/generated/prisma/models";
 import { UpdateTutorDto } from "src/application/dtos/request/updateTutor.dto";
 
 export interface ITutorRepository {

@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: residence-platform
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+      - "5555:5555"
+    depends_on:
+      - postgres
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5433/auth_db
+
+  residence-service:
+    build:
+      context: ./residence-service
+    container_name: residence-service
+    restart: unless-stopped
+    ports:
+      - "5000:80"
+    depends_on:
+      - postgres
+    environment:
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=residencias_db;Username=postgres;Password=postgres
+
+volumes:
+  postgres_data:

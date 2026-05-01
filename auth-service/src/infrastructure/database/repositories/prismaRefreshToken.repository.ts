@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { RefreshToken } from "generated/prisma/browser";
-import { RefreshTokenCreateInput } from "generated/prisma/models";
+import { RefreshToken } from "src/generated/prisma/browser";
+import { RefreshTokenCreateInput } from "src/generated/prisma/models";
 
 @Injectable()
 export class PrismaRefreshTokenRepository {
@@ -34,5 +34,12 @@ export class PrismaRefreshTokenRepository {
     await this.prisma.refreshToken.delete({
       where: { id },
     });
+  }
+
+  async deleteExpiredTokens(): Promise<number> {
+    const { count } = await this.prisma.refreshToken.deleteMany({
+      where: { expiresAt: { lt: new Date() } },
+    });
+    return count;
   }
 }
