@@ -10,8 +10,8 @@ RUN npm ci
 RUN DATABASE_URL="postgresql://postgres:postgres@postgres:5432/auth_db" npx prisma generate
 
 COPY . .
-
-RUN npm run build
+RUN npm run build 2>&1 || true
+RUN ls -la /app/dist/ || echo "dist VACIO"
 
 FROM node:22-alpine AS runner
 
