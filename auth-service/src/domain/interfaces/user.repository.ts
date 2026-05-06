@@ -1,5 +1,5 @@
-import { User } from "generated/prisma/browser";
-import { UserCreateInput } from "generated/prisma/models";
+import { User } from "src/generated/prisma/browser";
+import { UserCreateInput } from "src/generated/prisma/models";
 
 
 export interface IUserRepository {
