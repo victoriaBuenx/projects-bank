@@ -18,9 +18,11 @@ import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
 import { BcryptAdapter } from 'src/infrastructure/adapters/bcrypt.adapter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { PrismaMysqlModule } from 'src/infrastructure/database/prisma/prisma-mysql.module';
 
 @Module({
   imports: [
+    PrismaMysqlModule,
     JwtModule.registerAsync({
       global: true,
       imports: [ConfigModule],

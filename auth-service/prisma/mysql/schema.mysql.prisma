@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client"
+  output = "../../generated/prisma-mysql"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id            String         @id @default(uuid()) @db.VarChar(36)
+  name          String         @db.VarChar(255)
+  lastName      String         @db.VarChar(255)
+  motherLastName String        @db.VarChar(255)
+  email         String         @unique @db.VarChar(255)
+  passwordHash  String         @db.VarChar(255)
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  refreshTokens RefreshToken[]
+  role          RoleType       @default(USER)
+  student       Student?
+  tutor         Tutor?
+}
+
+model Student {
+  id               String      @id @default(uuid()) @db.VarChar(36)
+  controlNumber    String      @unique @db.VarChar(255)
+  career           String      @db.VarChar(255)
+  userId           String      @unique @db.VarChar(36)
+  user             User        @relation(fields: [userId], references: [id])
+}
+
+model Tutor {
+  id               String  @id @default(uuid()) @db.VarChar(36)
+  rfc              String  @unique @db.VarChar(255)
+  department       String  @db.VarChar(255)
+  userId           String  @unique @db.VarChar(36)
+  user             User    @relation(fields: [userId], references: [id])
+}
+
+enum RoleType {
+  ADMIN
+  USER
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  userId    String   @db.VarChar(36)
+
+  token     String   @unique @db.VarChar(512)
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  revoked   Boolean  @default(false)
+}

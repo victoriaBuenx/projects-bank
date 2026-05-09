@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
+import { PrismaMysqlService } from "../prisma/prisma-mysql.service";
 import { ITutorRepository } from "src/domain/interfaces/tutor.repository";
 import { Tutor } from "src/generated/prisma/browser";
 import { UpdateTutorDto } from "src/application/dtos/request/updateTutor.dto";
@@ -7,11 +8,12 @@ import { UpdateTutorDto } from "src/application/dtos/request/updateTutor.dto";
 @Injectable()
 export class PrismaTutoresRepository implements ITutorRepository {
   constructor(
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly prismaMysql: PrismaMysqlService,
   ) { }
 
   findByRfc(rfc: string) {
-    return this.prisma.tutor.findUnique({
+    return this.prismaMysql.tutor.findUnique({
       where: { rfc },
     });
   }
@@ -44,14 +46,14 @@ export class PrismaTutoresRepository implements ITutorRepository {
   }
 
   findById(id: string) {
-    return this.prisma.tutor.findUnique({
+    return this.prismaMysql.tutor.findUnique({
       where: { id },
       include: { user: true },
     })
   }
 
   findAll() {
-    return this.prisma.tutor.findMany({
+    return this.prismaMysql.tutor.findMany({
       include: { user: true },
     });
   }
