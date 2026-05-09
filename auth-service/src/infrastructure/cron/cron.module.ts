@@ -4,6 +4,7 @@ import { CleanupExpiredTokensUseCase } from 'src/application/use-cases/refreshTo
 import { PrismaRefreshTokenRepository } from 'src/infrastructure/database/repositories/prismaRefreshToken.repository';
 import { REFRESH_TOKEN_REPOSITORY } from 'src/domain/interfaces/refreshToken.repository';
 import { PrismaService } from 'src/infrastructure/database/prisma/prisma.service';
+import { PrismaMysqlModule } from '../database/prisma/prisma-mysql.module';
 
 @Module({
   providers: [
@@ -15,5 +16,6 @@ import { PrismaService } from 'src/infrastructure/database/prisma/prisma.service
       useClass: PrismaRefreshTokenRepository,
     },
   ],
+  imports: [PrismaMysqlModule]
 })
-export class CronModule {}
+export class CronModule { }

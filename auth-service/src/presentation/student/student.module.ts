@@ -13,8 +13,10 @@ import { UpdateStudentsUseCase } from 'src/application/use-cases/students/update
 import { GetAllStudentsUseCase } from 'src/application/use-cases/students/getAllStudents.usecase';
 import { GetStudentByIdUseCase } from 'src/application/use-cases/students/getStudentById.usecase';
 import { DeleteStudentUseCase } from 'src/application/use-cases/students/deleteStudent.usecase';
+import { PrismaMysqlModule } from 'src/infrastructure/database/prisma/prisma-mysql.module';
 
 @Module({
+  imports: [PrismaMysqlModule],
   controllers: [StudentController],
   providers: [
     PrismaService,

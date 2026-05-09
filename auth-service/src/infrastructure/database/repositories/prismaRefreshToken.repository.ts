@@ -1,11 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
+import { PrismaMysqlService } from "../prisma/prisma-mysql.service";
 import { RefreshToken } from "src/generated/prisma/browser";
 import { RefreshTokenCreateInput } from "src/generated/prisma/models";
 
 @Injectable()
 export class PrismaRefreshTokenRepository {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly prismaMysql: PrismaMysqlService,
+  ) { }
 
   async create(refreshToken: RefreshTokenCreateInput): Promise<RefreshToken> {
     return await this.prisma.refreshToken.create({
@@ -18,9 +22,9 @@ export class PrismaRefreshTokenRepository {
   }
 
   async findByToken(token: string): Promise<RefreshToken | null> {
-    return await this.prisma.refreshToken.findUnique({
+    return await this.prismaMysql.refreshToken.findUnique({
       where: { token },
-    });
+    }) as RefreshToken | null;
   }
 
   async revokeByUserId(userId: string): Promise<void> {

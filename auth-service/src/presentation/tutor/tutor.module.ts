@@ -12,8 +12,10 @@ import { GetTutorByIdUseCase } from 'src/application/use-cases/tutores/getTutorB
 import { DeleteTutorUseCase } from 'src/application/use-cases/tutores/deleteTutor.usecase';
 import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
 import { BcryptAdapter } from 'src/infrastructure/adapters/bcrypt.adapter';
+import { PrismaMysqlModule } from 'src/infrastructure/database/prisma/prisma-mysql.module';
 
 @Module({
+  imports: [PrismaMysqlModule],
   controllers: [TutorController],
   providers: [
     PrismaService,

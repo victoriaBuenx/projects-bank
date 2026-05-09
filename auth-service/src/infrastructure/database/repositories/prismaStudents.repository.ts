@@ -1,24 +1,26 @@
 import { Injectable } from "@nestjs/common";
 import { IStudentsRepository } from "src/domain/interfaces/students.repository";
 import { PrismaService } from "../prisma/prisma.service";
+import { PrismaMysqlService } from "../prisma/prisma-mysql.service";
 import { Student } from "src/generated/prisma/browser";
 import { UpdateStudentsDto } from "src/application/dtos/request/updateStudents.dto";
 
 @Injectable()
 export class PrismaStudentsRepository implements IStudentsRepository {
   constructor(
-    private readonly prisma: PrismaService
+    private readonly prisma: PrismaService,
+    private readonly prismaMysql: PrismaMysqlService,
   ) { }
 
   findById(id: string) {
-    return this.prisma.student.findUnique({
+    return this.prismaMysql.student.findUnique({
       where: { id },
       include: { user: true },
     });
   }
 
   findAll() {
-    return this.prisma.student.findMany({
+    return this.prismaMysql.student.findMany({
       include: { user: true },
     });
   }
@@ -31,9 +33,9 @@ export class PrismaStudentsRepository implements IStudentsRepository {
   }
 
   findByControlNumber(controlNumber: string): Promise<Student | null> {
-    return this.prisma.student.findUnique({
+    return this.prismaMysql.student.findUnique({
       where: { controlNumber },
-    });
+    }) as Promise<Student | null>;
   }
 
   async createStudent(

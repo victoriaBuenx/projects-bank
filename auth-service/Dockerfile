@@ -4,10 +4,11 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
-COPY prisma.config.ts ./
+COPY prisma.config.ts prisma.mysql.config.ts ./
 
 RUN npm ci
-RUN DATABASE_URL="postgresql://postgres:postgres@postgres:5432/auth_db" npx prisma generate
+RUN DATABASE_URL="postgresql://postgres:postgres@postgres:5432/auth_db" npx prisma generate --config=prisma.config.ts
+RUN npx prisma generate --config=prisma.mysql.config.ts
 
 COPY . .
 RUN npm run build 2>&1 || true
@@ -24,6 +25,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./
+COPY --from=builder /app/prisma.mysql.config.ts ./
 
 RUN mkdir -p /app/event-store
 
