@@ -4,13 +4,8 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import {ConfigModule} from '@nestjs/config';
 import { StudentModule } from './presentation/student/student.module';
 import { TutorModule } from './presentation/tutor/tutor.module';
-import { ScheduleModule } from '@nestjs/schedule';
-import { CronModule } from './infrastructure/cron/cron.module';
-
 @Module({
   imports: [AuthModule, StudentModule, TutorModule,
-    ScheduleModule.forRoot(),
-    CronModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
