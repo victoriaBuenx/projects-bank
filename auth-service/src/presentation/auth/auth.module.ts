@@ -23,14 +23,10 @@ import { PrismaMysqlModule } from 'src/infrastructure/database/prisma/prisma-mys
 @Module({
   imports: [
     PrismaMysqlModule,
-    JwtModule.registerAsync({
+    JwtModule.register({
       global: true,
-      imports: [ConfigModule],
-      inject:[ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '15d' }, 
-      }),
+      secret: '4f7b19d4c79d4912510f44b826b102a0956485ef6a5ce3bcb96a97e71a36ed1000312eb581a2f37473ed8373bc0905500d2375e23125647f788ee3b0ee4a9e1a',
+      signOptions: { expiresIn: '15d' },
     })
   ],
   providers: [
@@ -63,4 +59,4 @@ import { PrismaMysqlModule } from 'src/infrastructure/database/prisma/prisma-mys
   ],
   controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }
