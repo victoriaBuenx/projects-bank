@@ -1,39 +1,46 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Length, Matches } from "class-validator";
+import { IsEmail, IsOptional, IsString, Length, Matches } from "class-validator";
+import { Trim, Escape } from "class-sanitizer";
 
-export class UpdateStudentsDto{
+export class UpdateStudentsDto {
   @IsOptional()
-  @IsNotEmpty()
   @Matches(/^\d{8}$/)
+  @Trim()
+  @Escape()
   controlNumber?: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
+  @Trim()
+  @Escape()
   career?: string;
 
   @IsOptional()
   @IsEmail()
-  @IsNotEmpty()
+  @Trim()
+  @Escape()
   email?: string;
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @Length(4, 8)
+  @Trim()
   password?: string;
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
+  @Trim()
+  @Escape()
   name?: string;
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  lastName?: string
+  @Trim()
+  @Escape()
+  lastName?: string;
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
+  @Trim()
+  @Escape()
   motherLastName?: string;
 }

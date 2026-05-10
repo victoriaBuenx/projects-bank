@@ -1,11 +1,15 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { Trim, Escape } from "class-sanitizer";
 
-export class LoginDto{
+export class LoginDto {
   @IsEmail()
+  @IsNotEmpty()
+  @Trim()
+  @Escape()
   email: string;
 
-  @IsString()
   @IsNotEmpty()
-  @Length(4, 8)
+  @IsString()
+  @Trim()
   password: string;
 }
