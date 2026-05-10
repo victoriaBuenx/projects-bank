@@ -47,7 +47,6 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
-      - "5555:5555"
     networks:
       - residencias-network
     depends_on:
@@ -119,6 +118,20 @@ services:
       postgres-auth:
         condition: service_healthy
       mysql:
+        condition: service_healthy
+    networks:
+      - residencias-network
+
+  token-cleaner:
+    build:
+      context: ./token-cleaner
+      dockerfile: Dockerfile
+    container_name: token-cleaner
+    ports:
+      - "3002:3000"
+    restart: unless-stopped
+    depends_on:
+      postgres-auth:
         condition: service_healthy
     networks:
       - residencias-network
