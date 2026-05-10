@@ -4,26 +4,25 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import {ConfigModule} from '@nestjs/config';
 import { StudentModule } from './presentation/student/student.module';
 import { TutorModule } from './presentation/tutor/tutor.module';
+import { APP_GUARD } from '@nestjs/core';
 @Module({
   imports: [AuthModule, StudentModule, TutorModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
     }),
     ThrottlerModule.forRoot([
       {
-        name: 'short',
-        ttl: 1000,
-        limit: 3,
-      },
-      {
-        name: 'long',
         ttl: 60000,
-        limit: 20,
-      }
+        limit: 10,
+      },
     ]),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

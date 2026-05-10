@@ -1,39 +1,45 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Length, Matches } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
+import { Trim, Escape } from "class-sanitizer";
 
-export class UpdateTutorDto{
+export class UpdateTutorDto {
   @IsOptional()
-  @IsNotEmpty()
-  @Matches(/^[A-Z&Ñ]{3,4}\d{6}[A-Z\d]{3}$/)
+  @IsString()
+  @Trim()
+  @Escape()
   rfc?: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
+  @Trim()
+  @Escape()
   department?: string;
 
   @IsOptional()
-  @IsEmail()
-  @IsNotEmpty()
+  @IsString()
+  @Trim()
+  @Escape()
   email?: string;
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  @Length(4, 8)
+  @Trim()
   password?: string;
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
+  @Trim()
+  @Escape()
   name?: string;
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  lastName?: string
+  @Trim()
+  @Escape()
+  lastName?: string;
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
+  @Trim()
+  @Escape()
   motherLastName?: string;
 }
