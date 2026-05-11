@@ -6,4 +6,8 @@ export class LogoutDto {
   @IsNotEmpty()
   @Trim()
   token: string;
+
+  @IsString()
+  @IsNotEmpty()
+  userId: string;
 }

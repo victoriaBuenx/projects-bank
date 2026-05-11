@@ -2,7 +2,7 @@ import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { type IUserRepository, USER_REPOSITORY } from "src/domain/interfaces/user.repository";
 import { TUTOR_REPOSITORY } from "src/domain/interfaces/tutor.repository";
 import type { ITutorRepository } from "src/domain/interfaces/tutor.repository";
-import { CreateTutorDto } from "src/application/dtos/request/createTutor.dto";
+import { CreateTutoresDto } from "src/application/dtos/request/createTutor.dto";
 import { HASH_SERVICE } from "src/domain/interfaces/hash.service";
 import type { IHashService } from "src/domain/interfaces/hash.service";
 
@@ -19,7 +19,7 @@ export class CreateTutoresUseCase {
     private readonly hashService: IHashService,
   ) {}
 
-  async execute(dto: CreateTutorDto){
+  async execute(dto: CreateTutoresDto){
     const existingUser = await this.userRepository.findByEmail(dto.email);
 
     if (existingUser) {
