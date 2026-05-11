@@ -101,6 +101,7 @@ services:
       MYSQL_DATABASE: auth_db
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./mysql-init/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - residencias-network
     healthcheck:
