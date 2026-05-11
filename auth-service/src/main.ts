@@ -30,6 +30,12 @@ async function bootstrap() {
     new TransformInterceptor(),
   );
 
+  app.enableCors({
+    origin: 'http://localhost:3001',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true,
+  });
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

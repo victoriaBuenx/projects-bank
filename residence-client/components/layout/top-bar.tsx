@@ -1,6 +1,8 @@
 "use client"
 
-import { Bell, Search, Plus } from "lucide-react"
+import { Bell, Search, Plus, LogOut, User, Settings as SettingsIcon } from "lucide-react"
+import Link from "next/link"
+import { logout } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -61,11 +63,25 @@ export function TopBar({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem>Nuevo Proyecto</DropdownMenuItem>
-            <DropdownMenuItem>Nueva Empresa</DropdownMenuItem>
-            <DropdownMenuItem>Nuevo Entregable</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/projects">Nuevo Proyecto</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/companies">Nueva Empresa</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/students">Nuevo Estudiante</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/tutors">Nuevo Tutor</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/deliverables">Nuevo Entregable</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Nueva Asignación</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/assignments">Nueva Asignación</Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -102,7 +118,12 @@ export function TopBar({
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>
               <div className="flex flex-col">
-                <span>{user.name}</span>
+                <div className="flex items-center gap-2">
+                  <span>{user.name}</span>
+                  <Badge variant="outline" className="text-[10px] font-normal">
+                    {roleLabels[user.role]}
+                  </Badge>
+                </div>
                 <span className="text-xs font-normal text-muted-foreground">
                   {user.email}
                 </span>
@@ -112,7 +133,8 @@ export function TopBar({
             <DropdownMenuItem>Mi Perfil</DropdownMenuItem>
             <DropdownMenuItem>Configuración</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem className="text-destructive" onClick={() => logout()}>
+              <LogOut className="mr-2 h-4 w-4" />
               Cerrar Sesión
             </DropdownMenuItem>
           </DropdownMenuContent>

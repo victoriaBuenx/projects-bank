@@ -13,6 +13,7 @@ export default function LoginPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,11 +22,58 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError(null)
     
-    // Simulate login
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    
-    router.push("/dashboard")
+    try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Credenciales incorrectas")
+      }
+
+      const { accessToken } = result.data
+      localStorage.setItem("accessToken", accessToken)
+
+      // Decode JWT
+      const { decodeJwt } = await import("@/lib/auth")
+      const payload = decodeJwt(accessToken)
+
+      if (payload) {
+        localStorage.setItem("userEmail", payload.email || "")
+        localStorage.setItem("userRole", payload.role || "ADMIN")
+        
+        // Try to get name from auth/me or use sub/email as fallback
+        try {
+          const meResponse = await fetch("http://localhost:3000/auth/me", {
+            headers: {
+              "Authorization": `Bearer ${accessToken}`,
+            },
+          })
+          if (meResponse.ok) {
+            const meData = await meResponse.json()
+            localStorage.setItem("userName", meData.name || meData.fullName || payload.email.split('@')[0])
+          } else {
+            localStorage.setItem("userName", payload.email.split('@')[0])
+          }
+        } catch {
+          localStorage.setItem("userName", payload.email.split('@')[0])
+        }
+      }
+
+      router.push("/dashboard")
+    } catch (err: any) {
+      setError(err.message || "Ocurrió un error al iniciar sesión")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -102,6 +150,12 @@ export default function LoginPage() {
                 </Button>
               </div>
             </div>
+
+            {error && (
+              <div className="p-3 text-xs font-medium text-destructive bg-destructive/10 rounded-lg text-center">
+                {error}
+              </div>
+            )}
 
             <Button type="submit" className="w-full h-11" disabled={isLoading}>
               {isLoading ? (

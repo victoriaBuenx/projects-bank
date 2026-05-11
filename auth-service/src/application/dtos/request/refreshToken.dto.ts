@@ -5,5 +5,5 @@ export class RefreshTokenDto {
   @IsString()
   @IsNotEmpty()
   @Trim()
-  token: string;
+  refreshToken: string;
 }
