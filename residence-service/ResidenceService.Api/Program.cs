@@ -9,6 +9,8 @@ using ResidenceService.Api.Application.use_cases.deliverables;
 using ResidenceService.Api.Application.use_cases.deliverableAssignments;
 using ResidenceService.Api.Application.use_cases.deliverableSubmissions;
 using ResidenceService.Api.Application.use_cases.companyRatings;
+using ResidenceService.Api.Infrastructure.services;
+
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,7 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 // JWT Configuration
-var jwtSecret = builder.Configuration["Jwt:Secret"] ?? throw new Exception("JWT Secret not found");
+var jwtSecret = "4f7b19d4c79d4912510f44b826b102a0956485ef6a5ce3bcb96a97e71a36ed1000312eb581a2f37473ed8373bc0905500d2375e23125647f788ee3b0ee4a9e1a";
 var key = Encoding.ASCII.GetBytes(jwtSecret);
 
 builder.Services.AddAuthentication(x =>
@@ -58,6 +60,16 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowFrontend", policy => {
+        policy.WithOrigins("http://localhost:3001", "http://localhost:3000")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
+
 
 
 // Dependency Injection
@@ -122,6 +134,9 @@ builder.Services.AddScoped<ICompanyRatingRepository, CompanyRatingRepository>();
 builder.Services.AddScoped<CreateCompanyRatingUseCase>();
 builder.Services.AddScoped<GetAllCompanyRatingsUseCase>();
 
+builder.Services.AddScoped<IMinioService, MinioService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -130,8 +145,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 

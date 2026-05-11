@@ -309,3 +309,7 @@ C:/proyectoTopicos/projects-bank/projects-bank/residence-service/ResidenceServic
 /Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api/bin/Debug/net10.0/runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll
 /Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api/bin/Debug/net10.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
 /Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api/bin/Debug/net10.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api/bin/Debug/net10.0/CommunityToolkit.HighPerformance.dll
+/Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api/bin/Debug/net10.0/Minio.dll
+/Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api/bin/Debug/net10.0/System.IO.Hashing.dll
+/Users/mackbookairm1/Documents/projects-bank/residence-service/ResidenceService.Api/bin/Debug/net10.0/System.Reactive.dll

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ResidenceService.Api.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e90b2aa977a750dabca8b6a2d942a9866c5a64f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ce534df388d8e0ceed974830f0be423cfedbf9a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ResidenceService.Api.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ResidenceService.Api.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
