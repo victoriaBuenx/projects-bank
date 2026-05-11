@@ -12,4 +12,8 @@ RUN apt-get update && apt-get install -y default-jre wget unzip && \
 
 WORKDIR /opt/symmetricds
 
-CMD ["bin/sym", "--port", "31415", "--server"]
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
+CMD ["./entrypoint.sh"]
+
