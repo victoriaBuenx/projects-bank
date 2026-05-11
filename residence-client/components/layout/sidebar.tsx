@@ -17,6 +17,7 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { logout } from "@/lib/auth"
 import {
   Tooltip,
   TooltipContent,
@@ -165,6 +166,7 @@ export function Sidebar({ userRole = "admin" }: SidebarProps) {
                     variant="ghost"
                     size="sm"
                     className="w-full justify-center text-sidebar-muted hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                    onClick={() => logout()}
                   >
                     <LogOut className="h-5 w-5" />
                   </Button>
@@ -178,6 +180,7 @@ export function Sidebar({ userRole = "admin" }: SidebarProps) {
                 variant="ghost"
                 size="sm"
                 className="w-full justify-start gap-3 text-sidebar-muted hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                onClick={() => logout()}
               >
                 <LogOut className="h-5 w-5" />
                 <span>Cerrar Sesión</span>

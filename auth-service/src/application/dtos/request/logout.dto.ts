@@ -5,5 +5,5 @@ export class LogoutDto {
   @IsString()
   @IsNotEmpty()
   @Trim()
-  token: string;
+  userId: string;
 }
