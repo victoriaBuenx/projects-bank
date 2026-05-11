@@ -113,6 +113,7 @@ services:
   symmetricds:
     build: ./symmetricds
     container_name: symmetricds
+    restart: unless-stopped
     volumes:
       - ./symmetricds/engines:/opt/symmetricds/engines
       - ./symmetricds/config/symmetric-server.properties:/opt/symmetricds/conf/symmetric-server.properties
@@ -122,6 +123,8 @@ services:
         condition: service_healthy
       mysql:
         condition: service_healthy
+      auth-service:
+        condition: service_started
     networks:
       - residencias-network
 

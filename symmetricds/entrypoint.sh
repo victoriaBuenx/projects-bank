@@ -1,33 +1,30 @@
 #!/bin/bash
-set -e
-
-echo "[SymmetricDS] Waiting for PostgreSQL to be ready..."
-# Wait for SymmetricDS to create its sym_* tables in PostgreSQL
-# by starting the engine in the background briefly, then running setup
 
 echo "[SymmetricDS] Starting SymmetricDS server..."
-# Start SymmetricDS in the background
 bin/sym --port 31415 --server &
 SYM_PID=$!
 
-# Wait for SymmetricDS to initialize and create sym_* tables
-echo "[SymmetricDS] Waiting for SymmetricDS to initialize (30s)..."
-sleep 30
+# Wait for SymmetricDS to fully initialize and create sym_* tables in both DBs
+echo "[SymmetricDS] Waiting for engines to initialize (45s)..."
+sleep 45
 
-# Check if setup-replication.sql needs to be applied
+# Apply replication configuration using dbsql (runs SQL against corp-000 = PostgreSQL)
 echo "[SymmetricDS] Applying replication configuration..."
-# Use symadmin to run SQL against the corp-000 (PostgreSQL) engine
-bin/symadmin --engine corp-000 run-sql /opt/symmetricds/setup-replication.sql 2>/dev/null || {
-  echo "[SymmetricDS] Setup SQL already applied or partially applied (duplicate key). Continuing..."
-}
+if bin/dbsql --engine corp-000 < /opt/symmetricds/setup-replication.sql 2>&1; then
+  echo "[SymmetricDS] Replication configuration applied."
+else
+  echo "[SymmetricDS] Config may already exist (duplicate key is OK). Continuing..."
+fi
 
-# Send initial load from corp to store
+# Sync triggers so SymmetricDS creates DB triggers on the app tables
+echo "[SymmetricDS] Syncing triggers..."
+bin/symadmin --engine corp-000 sync-triggers 2>&1 || true
+
+# Send initial load from PostgreSQL (corp) to MySQL (store)
 echo "[SymmetricDS] Sending initial load to store-001..."
-bin/symadmin --engine corp-000 reload-node 001 2>/dev/null || {
-  echo "[SymmetricDS] Initial load already queued or in progress. Continuing..."
+bin/symadmin --engine corp-000 reload-node 001 2>&1 || {
+  echo "[SymmetricDS] Initial load already queued or in progress."
 }
 
 echo "[SymmetricDS] Replication configured. Server running (PID: $SYM_PID)"
-
-# Wait for the background process
 wait $SYM_PID
