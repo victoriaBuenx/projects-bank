@@ -16,7 +16,9 @@ RUN cd /app/src && dotnet restore ResidenceService.Api/ResidenceService.Api.cspr
 RUN dotnet tool install --global dotnet-ef && \
     ln -s /root/.dotnet/tools/dotnet-ef /usr/local/bin/dotnet-ef
 
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "ResidenceService.Api.dll"]
+ENTRYPOINT ["./entrypoint.sh"]

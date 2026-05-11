@@ -8,6 +8,7 @@ import { RegisterUserUseCase } from 'src/application/use-cases/registerUser.usec
 import { CreateUserDto } from 'src/application/dtos/request/createUser.dto';
 import { RefreshTokenUseCase } from 'src/application/use-cases/refreshToken/refreshToken.usecase';
 import { RefreshTokenDto } from 'src/application/dtos/request/refreshToken.dto';
+import { GetAllUsersUseCase } from 'src/application/use-cases/getAllUsers.usecase';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 
@@ -18,6 +19,7 @@ export class AuthController {
     private readonly logoutUseCase: LogoutUseCase,
     private readonly registerAdminUseCase: RegisterUserUseCase,
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
+    private readonly getAllUsersUseCase: GetAllUsersUseCase,
   ) { }
 
   @Get('validate-token')
@@ -54,5 +56,10 @@ export class AuthController {
   async logout(@Body() body: LogoutDto) {
     console.log("BODY:", body);
     return this.logoutUseCase.execute(body)
+  }
+
+  @Get('users')
+  async getAllUsers() {
+    return this.getAllUsersUseCase.execute();
   }
 }

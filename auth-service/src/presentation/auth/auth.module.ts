@@ -14,6 +14,7 @@ import { PrismaTutoresRepository } from 'src/infrastructure/database/repositorie
 import { PrismaService } from 'src/infrastructure/database/prisma/prisma.service';
 import { RefreshTokenUseCase } from 'src/application/use-cases/refreshToken/refreshToken.usecase';
 import { RegisterUserUseCase } from 'src/application/use-cases/registerUser.usecase';
+import { GetAllUsersUseCase } from 'src/application/use-cases/getAllUsers.usecase';
 import { HASH_SERVICE } from 'src/domain/interfaces/hash.service';
 import { BcryptAdapter } from 'src/infrastructure/adapters/bcrypt.adapter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -34,6 +35,7 @@ import { PrismaMysqlModule } from 'src/infrastructure/database/prisma/prisma-mys
     LoginUseCase,
     LogoutUseCase,
     RegisterUserUseCase,
+    GetAllUsersUseCase,
     RefreshTokenUseCase,
     JwtStrategy,
     {

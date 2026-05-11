@@ -5,6 +5,7 @@ import { UserCreateInput } from "src/generated/prisma/models";
 export interface IUserRepository {
   findByEmail(email: string): Promise<User | null>;
   findById(id: string): Promise<User | null>;
+  findAll(): Promise<User[]>;
   createUser(user: UserCreateInput): Promise<User>;
 }
 

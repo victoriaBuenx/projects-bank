@@ -39,4 +39,20 @@ export class PrismaUserRepository implements IUserRepository {
     });
   }
 
+  async findAll(): Promise<User[]> {
+    return await this.prismaMysql.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        lastName: true,
+        motherLastName: true,
+        email: true,
+        role: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+      }
+    }) as User[];
+  }
+
 }
