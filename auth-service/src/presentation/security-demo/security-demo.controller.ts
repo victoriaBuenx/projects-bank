@@ -1,7 +1,8 @@
-import { Controller, Post, Get, Body, UseGuards, Request as NestRequest, Headers, HttpException, HttpStatus, } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards, Request as NestRequest, Headers, HttpException, HttpStatus, Res, Query, Header, } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PrismaService } from 'src/infrastructure/database/prisma/prisma.service';
 import { ValidateJwtUseCase } from 'src/application/use-cases/security-demo/validateJwt.usecase';
+import type { Response } from 'express';
 
 @Controller('security-demo')
 export class SecurityDemoController {
@@ -10,24 +11,36 @@ export class SecurityDemoController {
     private readonly validateJwtUseCase: ValidateJwtUseCase,
   ) { }
 
-  @Post('xss-vulnerable')
-  xssVulnerable(@Body() body: Record<string, any>) {
-    const userInput = body.input;
-    return {
-      input: userInput,
-      resultado: `<div>${userInput}</div>`,
-    };
+  @Get('xss-vulnerable')
+  @Header('Content-Security-Policy', '')
+  xssVulnerable(@Query('input') input: string, @Res() res: Response) {
+    const userInput = `
+    <html>
+      <body>
+        <h1>Hola, ${input || 'invitado'}</h1>
+        <p>Intenta ?input=<script>alert(1)</script></p>
+      </body>
+    </html>
+  `;
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('X-XSS-Protection', '0');
+    res.send(userInput);
   }
 
 
-  @Post('xss-protected')
-  xssProtected(@Body() body: Record<string, any>) {
-    const userInput = body.input;
+  @Get('xss-protected')
+  xssProtected(@Query('input') input: string, @Res() res: Response) {
+    const userInput = `
+      <html>
+        <body>
+          <h1>Hola, ${input || 'invitado'}</h1>
+          <p>Este endpoint es vulnerable a XSS. Intenta enviar ?input=&lt;script&gt;alert(1)&lt;/script&gt;</p>
+        </body>
+      </html>
+    `;
+
     const sanitized = this.escapeHtml(userInput);
-    return {
-      inputOriginal: userInput,
-      inputSanitizado: sanitized,
-    };
+    return res.send(sanitized);
   }
 
   @Post('sql-vulnerable')
