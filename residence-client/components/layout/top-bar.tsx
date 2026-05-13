@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { Bell, Search, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
 interface TopBarProps {
   user?: {
@@ -31,11 +33,22 @@ const roleLabels = {
 
 export function TopBar({
   user = {
-    name: "Carlos García",
-    email: "carlos.garcia@universidad.edu",
+    name: "Usuario",
+    email: "",
     role: "admin",
   },
 }: TopBarProps) {
+  const router = useRouter()
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken")
+    localStorage.removeItem("refreshToken")
+    localStorage.removeItem("userName")
+    localStorage.removeItem("userEmail")
+    localStorage.removeItem("userRole")
+    router.push("/")
+  }
+
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-card/80 backdrop-blur-sm px-6">
       {/* Search */}
@@ -61,11 +74,19 @@ export function TopBar({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem>Nuevo Proyecto</DropdownMenuItem>
-            <DropdownMenuItem>Nueva Empresa</DropdownMenuItem>
-            <DropdownMenuItem>Nuevo Entregable</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/projects">Nuevo Proyecto</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/companies">Nueva Empresa</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/deliverables">Nuevo Entregable</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Nueva Asignación</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard/assignments">Nueva Asignación</Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -88,7 +109,8 @@ export function TopBar({
                     .split(" ")
                     .map((n) => n[0])
                     .join("")
-                    .slice(0, 2)}
+                    .slice(0, 2)
+                    .toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="hidden md:flex flex-col items-start">
@@ -112,7 +134,7 @@ export function TopBar({
             <DropdownMenuItem>Mi Perfil</DropdownMenuItem>
             <DropdownMenuItem>Configuración</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem className="text-destructive" onClick={handleLogout}>
               Cerrar Sesión
             </DropdownMenuItem>
           </DropdownMenuContent>

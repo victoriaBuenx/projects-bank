@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { StatsCard } from "@/components/ui/stats-card"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -109,13 +110,22 @@ const pendingDeliverables = [
 ]
 
 const quickActions = [
-  { label: "Nuevo Proyecto", icon: FolderKanban, href: "/dashboard/projects/new" },
-  { label: "Nueva Empresa", icon: Building2, href: "/dashboard/companies/new" },
-  { label: "Crear Entregable", icon: FileCheck, href: "/dashboard/deliverables/new" },
-  { label: "Nueva Asignación", icon: Users, href: "/dashboard/assignments/new" },
+  { label: "Nuevo Proyecto", icon: FolderKanban, href: "/dashboard/projects" },
+  { label: "Nueva Empresa", icon: Building2, href: "/dashboard/companies" },
+  { label: "Crear Entregable", icon: FileCheck, href: "/dashboard/deliverables" },
+  { label: "Nueva Asignación", icon: Users, href: "/dashboard/assignments" },
 ]
 
 export default function DashboardPage() {
+  const [userName, setUserName] = useState("Usuario")
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("userName")
+    if (storedName) {
+      setUserName(storedName)
+    }
+  }, [])
+
   return (
     <DashboardLayout>
       <div className="space-y-8">
@@ -123,7 +133,7 @@ export default function DashboardPage() {
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              Bienvenido, Carlos
+              Bienvenido, {userName}
             </h1>
             <p className="text-muted-foreground">
               Aquí tienes un resumen de la actividad del sistema.

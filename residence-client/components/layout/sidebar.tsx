@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import {
   LayoutDashboard,
   Building2,
@@ -43,7 +43,17 @@ interface SidebarProps {
 
 export function Sidebar({ userRole = "admin" }: SidebarProps) {
   const pathname = usePathname()
+  const router = useRouter()
   const [collapsed, setCollapsed] = useState(false)
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken")
+    localStorage.removeItem("refreshToken")
+    localStorage.removeItem("userName")
+    localStorage.removeItem("userEmail")
+    localStorage.removeItem("userRole")
+    router.push("/")
+  }
 
   const filteredNav = navigation.filter((item) => {
     if (userRole === "student") {
@@ -165,6 +175,7 @@ export function Sidebar({ userRole = "admin" }: SidebarProps) {
                     variant="ghost"
                     size="sm"
                     className="w-full justify-center text-sidebar-muted hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                    onClick={handleLogout}
                   >
                     <LogOut className="h-5 w-5" />
                   </Button>
@@ -178,6 +189,7 @@ export function Sidebar({ userRole = "admin" }: SidebarProps) {
                 variant="ghost"
                 size="sm"
                 className="w-full justify-start gap-3 text-sidebar-muted hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                onClick={handleLogout}
               >
                 <LogOut className="h-5 w-5" />
                 <span>Cerrar Sesión</span>

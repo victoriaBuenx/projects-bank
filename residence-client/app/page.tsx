@@ -13,19 +13,79 @@ export default function LoginPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   })
 
+  const decodeJwtPayload = (token: string) => {
+    try {
+      const base64Url = token.split(".")[1]
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/")
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+          .join("")
+      )
+      return JSON.parse(jsonPayload)
+    } catch {
+      return null
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    
-    // Simulate login
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    
-    router.push("/dashboard")
+    setError("")
+
+    try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || "Credenciales inválidas")
+      }
+
+      const accessToken = data.accessToken || data.data?.accessToken
+      const refreshToken = data.refreshToken || data.data?.refreshToken
+
+      if (!accessToken) {
+        throw new Error("No se recibió token de acceso")
+      }
+
+      // Save token
+      localStorage.setItem("accessToken", accessToken)
+      if (refreshToken) {
+        localStorage.setItem("refreshToken", refreshToken)
+      }
+
+      // Decode JWT payload to extract user info
+      const payload = decodeJwtPayload(accessToken)
+
+      if (payload) {
+        localStorage.setItem("userEmail", payload.email || formData.email)
+        localStorage.setItem("userRole", payload.role || "USER")
+        // Use the email prefix as name if no name field in token
+        const userName = payload.name || payload.email?.split("@")[0] || "Usuario"
+        localStorage.setItem("userName", userName)
+      }
+
+      router.push("/dashboard")
+    } catch (err: any) {
+      setError(err.message || "Error al iniciar sesión. Verifica tus credenciales.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -43,9 +103,6 @@ export default function LoginPage() {
           </div>
           <div>
             <CardTitle className="text-2xl">Bienvenido de vuelta</CardTitle>
-            <CardDescription>
-              Inicia sesión en ResidencyPMS para continuar
-            </CardDescription>
           </div>
         </CardHeader>
         <CardContent>
@@ -102,6 +159,12 @@ export default function LoginPage() {
                 </Button>
               </div>
             </div>
+
+            {error && (
+              <div className="rounded-md bg-destructive/10 border border-destructive/20 px-4 py-3 text-sm text-destructive">
+                {error}
+              </div>
+            )}
 
             <Button type="submit" className="w-full h-11" disabled={isLoading}>
               {isLoading ? (
