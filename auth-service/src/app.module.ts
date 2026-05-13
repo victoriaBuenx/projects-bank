@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './presentation/auth/auth.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
-import {ConfigModule} from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { StudentModule } from './presentation/student/student.module';
 import { TutorModule } from './presentation/tutor/tutor.module';
+import { SecurityDemoModule } from './presentation/security-demo/security-demo.module';
 import { APP_GUARD } from '@nestjs/core';
 @Module({
-  imports: [AuthModule, StudentModule, TutorModule,
+  imports: [AuthModule, StudentModule, TutorModule, SecurityDemoModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -25,4 +26,4 @@ import { APP_GUARD } from '@nestjs/core';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
